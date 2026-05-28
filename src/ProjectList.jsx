@@ -46,9 +46,20 @@ return (
   </div>
 
   {projects.length === 0 ? (
-    <p>まだ制作物が登録されていません。</p>
+    <div className="empty-state">
+    <p className="empty-title">まだ制作物が登録されていません。</p>
+    <p className="empty-text">
+      左側のフォームから制作物を追加してみましょう
+    </p>
+  </div>
+
   ) : filteredProjects.length === 0 ? (
-    <p>該当する制作物が見つかりません。</p>
+    <div className="empty-state">
+      <p className="empty-title">
+        該当する制作物が見つかりません。</p>
+      <p className="empty-text">
+        検索キーワードやステータスフィルターを確認してください。</p>
+    </div>
   ) : (
     <div className="project-list">
       {filteredProjects.map((project) => (

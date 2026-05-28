@@ -3,7 +3,9 @@ function ProjectCard({ project, onEditProject, onDeleteProject }) {
     <article className="project-card">
       <div className="project-card-header">
         <h3>{project.title}</h3>
-        <span className="status-badge">{project.status}</span>
+        <span className={`status-badge status-${project.status}`}>
+          {project.status}
+        </span>
       </div>
 
       <p className="project-description">{project.description}</p>
@@ -14,10 +16,10 @@ function ProjectCard({ project, onEditProject, onDeleteProject }) {
           .map((tech) => tech.trim())
           .filter((tech) => tech !== "")
           .map((tech) => (
-           <span className="tech-tag" key={tech}>
-             {tech}
-           </span>
-       ))}
+            <span className="tech-tag" key={tech}>
+              {tech}
+            </span>
+          ))}
       </div>
 
       <dl className="project-meta">
@@ -35,36 +37,42 @@ function ProjectCard({ project, onEditProject, onDeleteProject }) {
           <dt>改善予定</dt>
           <dd>{project.improvement || "未入力"}</dd>
         </div>
-
-        {project.githubUrl && (
-          <div>
-            <dt>GitHub</dt>
-            <dd>
-              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                {project.githubUrl}
-              </a>
-            </dd>
-          </div>
-        )}
-
-        {project.demoUrl && (
-          <div>
-            <dt>デモURL</dt>
-            <dd>
-              <a href={project.demoUrl} target="_blank" rel="noreferrer">
-                デモを開く
-                {project.demoUrl}
-              </a>
-            </dd>
-          </div>
-        )}  
       </dl>
 
+      {(project.githubUrl || project.demoUrl) && (
+        <div className="project-links">
+          {project.githubUrl && (
+            <a
+              className="project-link"
+              href={project.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHubを開く
+            </a>
+          )}
+
+          {project.demoUrl && (
+            <a
+              className="project-link"
+              href={project.demoUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              デモを開く
+            </a>
+          )}
+        </div>
+      )}
+
       <p className="project-date">
-        登録日：{project.createdAt || "未記録"} / 更新日：{project.updatedAt || "未記録"}
+        登録日：{project.createdAt || "未記録"} / 更新日：
+        {project.updatedAt || "未記録"}
       </p>
 
-      <button
+
+      <div className="project-actions">
+       <button
         className="edit-button"
         type="button"
         onClick={() => onEditProject(project)}
@@ -78,7 +86,8 @@ function ProjectCard({ project, onEditProject, onDeleteProject }) {
         onClick={() => onDeleteProject(project.id)}
       >
         削除
-      </button>
+       </button>
+      </div>
     </article>
   );
 }
