@@ -10,6 +10,17 @@ function getToday() {
   });
 }
 
+function normalizeFile(file) {
+  return {
+    id: file.id || crypto.randomUUID(),
+    name: file.name || "",
+    type: file.type || "",
+    size: file.size || 0,
+    path: file.path || "",
+    addedAt: file.addedAt || getToday(),
+  };
+}
+
 function normalizeProject(project) {
   return {
     id: project.id || crypto.randomUUID(),
@@ -24,7 +35,7 @@ function normalizeProject(project) {
     status: project.status || "制作中",
     createdAt: project.createdAt || getToday(),
     updatedAt: project.updatedAt || getToday(),
-    files: Array.isArray(project.files) ? project.files : [],
+    files: Array.isArray(project.files) ? project.files.map(normalizeFile) : [],
   };
 }
 

@@ -39,6 +39,21 @@ function ProjectCard({ project, onEditProject, onDeleteProject }) {
         </div>
       </dl>
 
+      {project.files.length > 0 && (
+        <div className="project-files">
+          <p className="project-files-title">関連ファイル</p>
+
+          <ul className="project-files-list">
+            {project.files.map((file) => (
+              <li className="project-file-item" key={file.id}>
+                <span>{file.name}</span>
+                <span>{file.addedAt}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {(project.githubUrl || project.demoUrl) && (
         <div className="project-links">
           {project.githubUrl && (
