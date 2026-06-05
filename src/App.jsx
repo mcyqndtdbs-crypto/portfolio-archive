@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+import {
+  readTextFile,
+  writeTextFile,
+  BaseDirectory,
+  mkdir,
+} from "@tauri-apps/plugin-fs";
+import { appDataDir } from "@tauri-apps/api/path";
 import StatsPanel from "./StatsPanel";
 import ProjectForm from "./ProjectForm";
 import ProjectList from "./ProjectList";
@@ -39,7 +46,7 @@ function normalizeProject(project) {
   };
 }
 
-const STORAGE_KEY = "portfolio-archive-projects";
+const PROJECT_FILE_NAME = "projects.json";
 
   const initialForm = {
   title: "",
@@ -56,36 +63,67 @@ const STORAGE_KEY = "portfolio-archive-projects";
   function App() {
     //state
     const [form, setForm] = useState(initialForm);
-    const [projects, setProjects] = useState(() => {
-    const savedProjects = localStorage.getItem(STORAGE_KEY);
-
-    if (savedProjects === null) {
-      return[];
-    }
-
-    try {
-      const parsedProjects = JSON.parse(savedProjects);
-
-      if (!Array.isArray(parsedProjects)) {
-       return [];
-      }
-
-      return parsedProjects.map((project) => normalizeProject(project));
-    } catch (error) {
-      console.error("保存データの読み込みに失敗しました", error);
-      return [];
-    }
-  });
+    const [projects, setProjects] = useState([]);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     const [editingId, setEditingId] = useState(null);
+    useEffect(() => {
+  loadProjectsFromFile();
+}, []);
+
+async function loadProjectsFromFile() {
+  try {
+    const jsonText = await readTextFile(PROJECT_FILE_NAME, {
+      baseDir: BaseDirectory.AppData,
+    });
+
+    const parsedProjects = JSON.parse(jsonText);
+
+    if (!Array.isArray(parsedProjects)) {
+      throw new Error("projects.jsonの内容が配列ではありません");
+    }
+
+    setProjects(parsedProjects.map((project) => normalizeProject(project)));
+    console.log("projects.jsonから読み込みました");
+  } catch (error) {
+    console.error("projects.jsonの読み込みに失敗しました", error);
+    setProjects([]);
+  } finally {
+    setIsDataLoaded(true);
+  }
+}
 
     const [searchText, setSearchText] = useState("");
     const [statusFilter, setStatusFilter] = useState("すべて");
 
-  //localStorage保存
+  //保存処理
 useEffect(() => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
-}, [projects]);
+  if (!isDataLoaded) {
+    return;
+  }
+
+  saveProjectsToFile(projects);
+}, [projects, isDataLoaded]);
+
+async function saveProjectsToFile(projectList) {
+  try {
+    const appDataPath = await appDataDir();
+
+    await mkdir(appDataPath, {
+      recursive: true,
+    });
+
+    const jsonText = JSON.stringify(projectList, null, 2);
+
+    await writeTextFile(PROJECT_FILE_NAME, jsonText, {
+      baseDir: BaseDirectory.AppData,
+    });
+
+    console.log("projects.jsonに保存されました");
+  } catch (error) {
+    console.error("projects.jsonへの保存に失敗しました", error);
+  }
+}
 
   //イベント処理
   function handleChange(e) {
