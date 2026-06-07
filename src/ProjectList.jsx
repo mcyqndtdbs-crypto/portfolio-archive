@@ -10,7 +10,8 @@ function ProjectList({
     statusFilter, 
     setStatusFilter,
     onEditProject, 
-    onDeleteProject 
+    onDeleteProject,
+    onAddFileToProject
 }) {
 return (
 
@@ -68,6 +69,7 @@ return (
           project={project}
           onEditProject={onEditProject}
           onDeleteProject={onDeleteProject}
+          onAddFileToProject={onAddFileToProject}
         />
       ))}
     </div>

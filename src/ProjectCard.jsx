@@ -1,4 +1,4 @@
-function ProjectCard({ project, onEditProject, onDeleteProject }) {
+function ProjectCard({ project, onEditProject, onDeleteProject, onAddFileToProject }) {
   return (
     <article className="project-card">
       <div className="project-card-header">
@@ -86,8 +86,16 @@ function ProjectCard({ project, onEditProject, onDeleteProject }) {
       </p>
 
 
-      <div className="project-actions">
+      <div className="secondary-actions">
        <button
+        className="edit-button"
+        type="button"
+        onClick={() => onAddFileToProject(project.id)}
+      >
+        ファイル追加
+      </button>
+
+      <button        
         className="edit-button"
         type="button"
         onClick={() => onEditProject(project)}

@@ -6,6 +6,7 @@ import {
   mkdir,
 } from "@tauri-apps/plugin-fs";
 import { appDataDir } from "@tauri-apps/api/path";
+import { open } from "@tauri-apps/plugin-dialog";
 import StatsPanel from "./StatsPanel";
 import ProjectForm from "./ProjectForm";
 import ProjectList from "./ProjectList";
@@ -217,6 +218,55 @@ function handleCancelEdit() {
   setEditingId(null);
 }
 
+async function handleAddFileToProject(projectId) {
+  try {
+    console.log("ファイル追加ボタンが押されました", projectId);
+
+    const selectedPath = await open({
+      multiple: false,
+      directory: false,
+    });
+
+    if (selectedPath === null) {
+      return;
+    }
+
+    if (Array.isArray(selectedPath)) {
+      return;
+    }
+
+    const fileName = selectedPath.split(/[\\/]/).pop() || selectedPath;
+
+    const newFile = {
+      id: crypto.randomUUID(),
+      name: fileName,
+      type: "",
+      size: 0,
+      path: selectedPath,
+      addedAt: getToday(),
+    };
+
+    setProjects((prevProjects) =>
+      prevProjects.map((project) => {
+        if (project.id !== projectId) {
+          return project;
+        }
+
+        return {
+          ...project,
+          files: [
+            ...(Array.isArray(project.files) ? project.files : []),
+            newFile,
+          ],
+          updatedAt: getToday(),
+        };
+      })
+    );
+  } catch (error) {
+    console.error("ファイルの追加に失敗しました", error);
+  }
+}
+
 //表示用計算
 const totalCount = projects.length;
 
@@ -289,6 +339,7 @@ return (
             setStatusFilter={setStatusFilter}
             onEditProject={handleEditProject}
             onDeleteProject={handleDeleteProject}
+            onAddFileToProject={handleAddFileToProject}
           />
         </main>
       </div>
