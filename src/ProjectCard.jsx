@@ -46,7 +46,10 @@ function ProjectCard({ project, onEditProject, onDeleteProject, onAddFileToProje
           <ul className="project-files-list">
             {project.files.map((file) => (
               <li className="project-file-item" key={file.id}>
-                <span>{file.name}</span>
+                <div>
+                  <strong>{file.name}</strong>
+                  <p className="project-file-path">{file.path}</p>
+                </div>
                 <span>{file.addedAt}</span>
               </li>
             ))}

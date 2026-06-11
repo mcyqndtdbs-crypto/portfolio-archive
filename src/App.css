@@ -523,6 +523,19 @@
   font-size: 0.78rem;
 }
 
+.project-file-item strong {
+  display: block;
+  color: #334155;
+  font-size: 0.86rem;
+}
+
+.project-file-path {
+  margin: 4px 0 0;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  word-break: break-all;
+}
+
 .empty-state {
   padding: 28px;
   border: 1px dashed rgba(148, 163, 184, 0.45);
