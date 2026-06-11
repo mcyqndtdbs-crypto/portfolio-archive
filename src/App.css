@@ -529,6 +529,38 @@
   font-size: 0.86rem;
 }
 
+.project-file-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.file-delete-button {
+  border: 1px solid rgba(239, 68, 68, 0.24);
+  border-radius: 10px;
+  padding: 6px 9px;
+  background: rgba(254, 242, 242, 0.9);
+  color: #b91c1c;
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.file-delete-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(239, 68, 68, 0.42);
+  background: #fee2e2;
+}
+
+.file-delete-button:active {
+  transform: translateY(0);
+}
+
 .project-file-path {
   margin: 4px 0 0;
   color: #94a3b8;

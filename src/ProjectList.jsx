@@ -11,7 +11,8 @@ function ProjectList({
     setStatusFilter,
     onEditProject, 
     onDeleteProject,
-    onAddFileToProject
+    onAddFileToProject,
+    onDeleteFileFromProject
 }) {
 return (
 
@@ -70,6 +71,7 @@ return (
           onEditProject={onEditProject}
           onDeleteProject={onDeleteProject}
           onAddFileToProject={onAddFileToProject}
+          onDeleteFileFromProject={onDeleteFileFromProject}
         />
       ))}
     </div>

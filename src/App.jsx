@@ -136,6 +136,24 @@ async function saveProjectsToFile(projectList) {
   }));
 }
 
+function handleDeleteFileFromProject(projectId, fileId) {
+  setProjects((prevProjects) =>
+    prevProjects.map((project) => {
+      if (project.id !== projectId) {
+        return project;
+      }
+
+      return {
+        ...project,
+        files: Array.isArray(project.files)
+          ? project.files.filter((file) => file.id !== fileId)
+          : [],
+        updatedAt: getToday(),
+      };
+    })
+  );
+}
+
   function handleAddProject() {
     if (form.title.trim() === "") {
       alert("アプリ名を入力");
@@ -340,6 +358,7 @@ return (
             onEditProject={handleEditProject}
             onDeleteProject={handleDeleteProject}
             onAddFileToProject={handleAddFileToProject}
+            onDeleteFileFromProject={handleDeleteFileFromProject}
           />
         </main>
       </div>

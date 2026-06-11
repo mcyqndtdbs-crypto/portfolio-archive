@@ -1,4 +1,10 @@
-function ProjectCard({ project, onEditProject, onDeleteProject, onAddFileToProject }) {
+function ProjectCard({ 
+  project, 
+  onEditProject, 
+  onDeleteProject, 
+  onAddFileToProject,
+  onDeleteFileFromProject 
+}) {
   return (
     <article className="project-card">
       <div className="project-card-header">
@@ -50,7 +56,17 @@ function ProjectCard({ project, onEditProject, onDeleteProject, onAddFileToProje
                   <strong>{file.name}</strong>
                   <p className="project-file-path">{file.path}</p>
                 </div>
+
+                <div className="project-file-actions">
                 <span>{file.addedAt}</span>
+                <button
+                  className="file-delete-button"
+                  type="button"
+                  onClick={() => onDeleteFileFromProject(project.id, file.id)}
+                >
+                  削除
+                </button>
+                </div>
               </li>
             ))}
           </ul>
