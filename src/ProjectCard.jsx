@@ -3,7 +3,8 @@ function ProjectCard({
   onEditProject, 
   onDeleteProject, 
   onAddFileToProject,
-  onDeleteFileFromProject 
+  onDeleteFileFromProject,
+  onRevealFileInDir
 }) {
   return (
     <article className="project-card">
@@ -59,6 +60,15 @@ function ProjectCard({
 
                 <div className="project-file-actions">
                 <span>{file.addedAt}</span>
+
+                <button
+                  className="file-delete-button"
+                  type="button"
+                  onClick={() => onRevealFileInDir(file.path)}
+                >
+                  場所を開く
+                </button>
+
                 <button
                   className="file-delete-button"
                   type="button"

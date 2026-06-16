@@ -10,6 +10,7 @@
     "fs:default",
     "fs:allow-appdata-read",
     "fs:allow-appdata-write",
-    "dialog:default"
+    "dialog:default",
+    "opener:default"
   ]
 }

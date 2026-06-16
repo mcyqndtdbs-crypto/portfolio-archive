@@ -561,6 +561,31 @@
   transform: translateY(0);
 }
 
+.file-open-button {
+  border: 1px solid rgba(37, 99, 235, 0.24);
+  border-radius: 10px;
+  padding: 6px 9px;
+  background: rgba(239, 246, 255, 0.9);
+  color: #1d4ed8;
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.file-open-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(37, 99, 235, 0.42);
+  background: #dbeafe;
+}
+
+.file-open-button:active {
+  transform: translateY(0);
+}
+
 .project-file-path {
   margin: 4px 0 0;
   color: #94a3b8;

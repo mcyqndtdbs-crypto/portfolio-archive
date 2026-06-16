@@ -7,6 +7,7 @@ import {
 } from "@tauri-apps/plugin-fs";
 import { appDataDir } from "@tauri-apps/api/path";
 import { open } from "@tauri-apps/plugin-dialog";
+import { revealItemInDir } from "@tauri-apps/plugin-opener";
 import StatsPanel from "./StatsPanel";
 import ProjectForm from "./ProjectForm";
 import ProjectList from "./ProjectList";
@@ -153,6 +154,19 @@ function handleDeleteFileFromProject(projectId, fileId) {
     })
   );
 }
+
+  async function handleRevealFileInDir(filePath) {
+    try {
+      if (!filePath) {
+        return;
+      }
+
+      await revealItemInDir(filePath);
+      
+    } catch (error) {
+      console.error("保存場所を開けませんでした", error);
+    }
+  }
 
   function handleAddProject() {
     if (form.title.trim() === "") {
@@ -359,6 +373,7 @@ return (
             onDeleteProject={handleDeleteProject}
             onAddFileToProject={handleAddFileToProject}
             onDeleteFileFromProject={handleDeleteFileFromProject}
+            onRevealFileInDir={handleRevealFileInDir}
           />
         </main>
       </div>
