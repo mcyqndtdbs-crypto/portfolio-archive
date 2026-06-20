@@ -1,16 +1,45 @@
-# React + Vite
+﻿# Portfolio Archive
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio Archive は、自分の制作物を管理するためのデスクトップアプリです。  
+React + Vite で画面を作成し、Tauri を使ってデスクトップアプリ化しています。
 
-Currently, two official plugins are available:
+## 使用技術
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React
+- Vite
+- Tauri
+- JavaScript
+- CSS
+- JSON
 
-## React Compiler
+## 主な機能
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 制作物の登録
+- 制作物の編集
+- 制作物の削除
+- ステータス管理
+- キーワード検索
+- ステータス絞り込み
+- 制作物数の集計表示
+- 関連ファイルの添付
+- 添付ファイル名と保存パスの表示
+- 添付ファイルの削除
+- 添付ファイルの保存場所を開く
 
-## Expanding the ESLint configuration
+## データ保存
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+登録した制作物データは、Tauri のファイルシステム機能を使って `projects.json` に保存しています。  
+ブラウザの `localStorage` には依存せず、アプリ専用のデータ保存領域に JSON ファイルとして保存する構成です。
+
+## ファイル添付について
+
+関連ファイルは、ファイル本体をアプリ内にコピーするのではなく、元ファイルのパスを記録する方式です。  
+そのため、元ファイルを移動または削除すると、記録されたパスからは参照できなくなります。
+
+## 今後の改善予定
+
+- ファイルを直接開く機能
+- README のスクリーンショット追加
+- UI 文言の整理
+- 配布用ビルドの作成
+- エラー表示の改善
