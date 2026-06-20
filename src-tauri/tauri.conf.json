@@ -3,6 +3,7 @@
   "productName": "Portfolio Archive",
   "version": "0.1.0",
   "identifier": "com.sasah.portfolioarchive",
+  "mainBinaryName": "portfolio-archive",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:5173",
