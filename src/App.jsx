@@ -67,11 +67,20 @@ const PROJECT_FILE_NAME = "projects.json";
     const [form, setForm] = useState(initialForm);
     const [projects, setProjects] = useState([]);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [message, setMessage] = useState("null");
 
     const [editingId, setEditingId] = useState(null);
     useEffect(() => {
   loadProjectsFromFile();
 }, []);
+
+function showMessage(type, text) {
+  setMessage({ type, text });
+
+  window.setTimeout(() => {
+    setMessage(null);
+  }, 4000);
+}
 
 async function loadProjectsFromFile() {
   try {
@@ -88,8 +97,10 @@ async function loadProjectsFromFile() {
     setProjects(parsedProjects.map((project) => normalizeProject(project)));
     console.log("projects.jsonから読み込みました");
   } catch (error) {
+
     console.error("projects.jsonの読み込みに失敗しました", error);
     setProjects([]);
+    showMessage("error", "projects.jsonの読み込みに失敗しました。新しいデータとして開始します。");
   } finally {
     setIsDataLoaded(true);
   }
@@ -124,6 +135,7 @@ async function saveProjectsToFile(projectList) {
     console.log("projects.jsonに保存されました");
   } catch (error) {
     console.error("projects.jsonへの保存に失敗しました", error);
+    showMessage("error", "データの保存に失敗しました。アプリを閉じる前にもう一度操作してください。");
   }
 }
 
@@ -158,6 +170,7 @@ function handleDeleteFileFromProject(projectId, fileId) {
   async function handleRevealFileInDir(filePath) {
     try {
       if (!filePath) {
+        showMessage("error", "ファイルの保存場所が登録されていません。");
         return;
       }
 
@@ -165,12 +178,13 @@ function handleDeleteFileFromProject(projectId, fileId) {
       
     } catch (error) {
       console.error("保存場所を開けませんでした", error);
+      showMessage("error", "保存場所を開けませんでした。元ファイルが移動または削除された可能性があります。");
     }
   }
 
   function handleAddProject() {
     if (form.title.trim() === "") {
-      alert("アプリ名を入力");
+      showMessage("error", "アプリ名を入力してください。");
       return;
     }
 
@@ -185,7 +199,7 @@ function handleDeleteFileFromProject(projectId, fileId) {
       !form.demoUrl.startsWith("http://");
 
     if (isInvalidGithubUrl || isInvalidDemoUrl) {
-        alert("GitHub URLはhttps://またはhttp://で始まる必要があります");
+        showMessage("error", "GitHub URLはhttps://またはhttp://で始まる必要があります");
         return;
       }
 
@@ -296,6 +310,7 @@ async function handleAddFileToProject(projectId) {
     );
   } catch (error) {
     console.error("ファイルの追加に失敗しました", error);
+    showMessage("error", "ファイルの追加に失敗しました。もう一度選択してください。");
   }
 }
 
@@ -343,6 +358,12 @@ return (
           <p className="hero-label">Project Storage</p>
           <h1 className="hero-title">Portfolio Archive</h1>
         </header>
+
+        {message && (
+          <div className={`app-message app-message-${message.type}`}>
+            {message.text}
+          </div>
+        )}
 
         <StatsPanel
           totalCount={totalCount}

@@ -682,3 +682,24 @@
 .edit-button:active {
   transform: translateY(0);
 }
+
+.app-message {
+  margin: 16px 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.app-message-error {
+  color: #991b1b;
+  background: #fee2e2;
+  border-color: #fecaca;
+}
+
+.app-message-success {
+  color: #166534;
+  background: #dcfce7;
+  border-color: #bbf7d0;
+}
