@@ -11,6 +11,7 @@
     "fs:allow-appdata-read",
     "fs:allow-appdata-write",
     "dialog:default",
-    "opener:default"
+    "opener:default",
+    "opener:allow-open-path"
   ]
 }

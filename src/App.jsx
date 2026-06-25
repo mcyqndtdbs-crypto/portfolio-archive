@@ -7,7 +7,7 @@ import {
 } from "@tauri-apps/plugin-fs";
 import { appDataDir } from "@tauri-apps/api/path";
 import { open } from "@tauri-apps/plugin-dialog";
-import { revealItemInDir } from "@tauri-apps/plugin-opener";
+import { revealItemInDir,openPath } from "@tauri-apps/plugin-opener";
 import StatsPanel from "./StatsPanel";
 import ProjectForm from "./ProjectForm";
 import ProjectList from "./ProjectList";
@@ -67,7 +67,7 @@ const PROJECT_FILE_NAME = "projects.json";
     const [form, setForm] = useState(initialForm);
     const [projects, setProjects] = useState([]);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
-    const [message, setMessage] = useState("null");
+    const [message, setMessage] = useState(null);
 
     const [editingId, setEditingId] = useState(null);
     useEffect(() => {
@@ -181,6 +181,22 @@ function handleDeleteFileFromProject(projectId, fileId) {
       showMessage("error", "保存場所を開けませんでした。元ファイルが移動または削除された可能性があります。");
     }
   }
+
+  async function handleOpenFile(filePath) {
+    try {
+      if (!filePath) {
+        showMessage("error", "ファイルのパスが登録されていません。");
+        return;
+      }
+
+      await openPath(filePath);
+    } catch (error) {
+      console.error("ファイルを開けませんでした", error);
+      showMessage("error", "ファイルを開けませんでした。元ファイルが移動または削除された可能性があります。");
+    }
+  }
+
+
 
   function handleAddProject() {
     if (form.title.trim() === "") {
@@ -395,6 +411,7 @@ return (
             onAddFileToProject={handleAddFileToProject}
             onDeleteFileFromProject={handleDeleteFileFromProject}
             onRevealFileInDir={handleRevealFileInDir}
+            onOpenFile={handleOpenFile}
           />
         </main>
       </div>

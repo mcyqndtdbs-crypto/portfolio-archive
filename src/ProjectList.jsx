@@ -13,7 +13,8 @@ function ProjectList({
     onDeleteProject,
     onAddFileToProject,
     onDeleteFileFromProject,
-    onRevealFileInDir
+    onRevealFileInDir,
+    onOpenFile
 }) {
 return (
 
@@ -74,6 +75,7 @@ return (
           onAddFileToProject={onAddFileToProject}
           onDeleteFileFromProject={onDeleteFileFromProject}
           onRevealFileInDir={onRevealFileInDir}
+          onOpenFile={onOpenFile}
         />
       ))}
     </div>

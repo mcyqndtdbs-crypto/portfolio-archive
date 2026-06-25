@@ -4,7 +4,8 @@ function ProjectCard({
   onDeleteProject, 
   onAddFileToProject,
   onDeleteFileFromProject,
-  onRevealFileInDir
+  onRevealFileInDir,
+  onOpenFile
 }) {
   return (
     <article className="project-card">
@@ -62,7 +63,15 @@ function ProjectCard({
                 <span>{file.addedAt}</span>
 
                 <button
-                  className="file-delete-button"
+                  className="file-open-button"
+                  type="button"
+                  onClick={() => onOpenFile(file.path)}
+                >
+                  開く
+                </button>
+
+                <button
+                  className="file-open-button"
                   type="button"
                   onClick={() => onRevealFileInDir(file.path)}
                 >
